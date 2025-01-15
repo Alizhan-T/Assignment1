@@ -1,28 +1,52 @@
-import java.util.ArrayList;
+import java.util.*;
+import java.util.stream.Collectors;
 
+// Class representing a school
 public class School {
-    private String name;
-    private String address;
-    private ArrayList<Student> students;
-    private ArrayList<Teacher> teachers;
+    private List<Person> people;
 
-    public School(String name, String address) {
-        this.name = name;
-        this.address = address;
-        this.students = new ArrayList<>();
-        this.teachers = new ArrayList<>();
+    // Constructor to initialize the list
+    public School() {
+        this.people = new ArrayList<>();
     }
 
-    public void addStudent(Student student) {
-        students.add(student);
+    // Add a person to the school
+    public void addPerson(Person person) {
+        people.add(person);
     }
 
-    public void addTeacher(Teacher teacher) {
-        teachers.add(teacher);
+    // Remove a person from the school
+    public void removePerson(Person person) {
+        people.remove(person);
     }
 
-    @Override
-    public String toString() {
-        return "School(Name: " + name + ", Address: " + address + ", Students: " + students.size() + ", Teachers: " + teachers.size() + ")";
+    // Search people by name
+    public List<Person> searchByName(String name) {
+        return people.stream()
+                .filter(person -> person.getName().equalsIgnoreCase(name))
+                .collect(Collectors.toList());
+    }
+
+    // Filter people by age
+    public List<Person> filterByAge(int age) {
+        return people.stream()
+                .filter(person -> person.getAge() == age)
+                .collect(Collectors.toList());
+    }
+
+    // Sort people by name
+    public List<Person> sortByName() {
+        return people.stream()
+                .sorted(Comparator.comparing(Person::getName))
+                .collect(Collectors.toList());
+    }
+
+    // Display all people in the school
+    public void displayAll() {
+        if (people.isEmpty()) {
+            System.out.println("No people in the school.");
+        } else {
+            people.forEach(person -> System.out.println(person.getDetails()));
+        }
     }
 }
