@@ -1,32 +1,15 @@
-public class Student {
-    private String name;
-    private int age;
+public class Student extends Person {
     private String grade;
 
+    // Constructor
     public Student(String name, int age, String grade) {
-        this.name = name;
-        this.age = age;
+        super(name, age);
         this.grade = grade;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public int getAge() {
-        return age;
-    }
-
+    // Getter and setter
     public String getGrade() {
         return grade;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setAge(int age) {
-        this.age = age;
     }
 
     public void setGrade(String grade) {
@@ -34,8 +17,13 @@ public class Student {
     }
 
     @Override
+    public String getDetails() {
+        return "Student: " + toString() + ", Grade: " + grade;
+    }
+
+    @Override
     public String toString() {
-        return "Student(Name: " + name + ", Age: " + age + ", Grade: " + grade + ")";
+        return super.toString() + ", Grade: " + grade;
     }
 }
 
