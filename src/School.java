@@ -1,52 +1,60 @@
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
-// Class representing a school
+/**
+ * Container managing students and teachers with search, filter, and sort operations.
+ */
 public class School {
-    private List<Person> people;
+    private final List<Person> people;
 
-    // Constructor to initialize the list
     public School() {
         this.people = new ArrayList<>();
     }
 
-    // Add a person to the school
     public void addPerson(Person person) {
+        Objects.requireNonNull(person, "Person cannot be null");
         people.add(person);
     }
 
-    // Remove a person from the school
-    public void removePerson(Person person) {
-        people.remove(person);
+    public boolean removePerson(Person person) {
+        return people.remove(person);
     }
 
-    // Search people by name
-    public List<Person> searchByName(String name) {
+    public List<Person> getPeople() {
+        return Collections.unmodifiableList(people);
+    }
+
+    public List<Person> searchByName(String query) {
+        if (query == null || query.trim().isEmpty()) {
+            return Collections.emptyList();
+        }
+        String normalized = query.trim().toLowerCase();
         return people.stream()
-                .filter(person -> person.getName().equalsIgnoreCase(name))
+                .filter(person -> person.getName().toLowerCase().contains(normalized))
                 .collect(Collectors.toList());
     }
 
-    // Filter people by age
     public List<Person> filterByAge(int age) {
         return people.stream()
                 .filter(person -> person.getAge() == age)
                 .collect(Collectors.toList());
     }
 
-    // Sort people by name
     public List<Person> sortByName() {
         return people.stream()
-                .sorted(Comparator.comparing(Person::getName))
+                .sorted(Comparator.comparing(Person::getName, String.CASE_INSENSITIVE_ORDER))
                 .collect(Collectors.toList());
     }
 
-    // Display all people in the school
     public void displayAll() {
         if (people.isEmpty()) {
             System.out.println("No people in the school.");
-        } else {
-            people.forEach(person -> System.out.println(person.getDetails()));
+            return;
         }
+        people.forEach(person -> System.out.println("  " + person.getDetails()));
     }
 }

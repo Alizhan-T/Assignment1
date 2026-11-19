@@ -1,23 +1,26 @@
 import java.util.Objects;
 
-// Abstract base class for all people
-abstract class Person {
+/**
+ * Abstract base class representing a person in the school domain.
+ */
+public abstract class Person {
     private String name;
     private int age;
 
-    // Constructor
     public Person(String name, int age) {
-        this.name = name;
-        this.age = age;
+        setName(name);
+        setAge(age);
     }
 
-    // Getters and setters
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
-        this.name = name;
+        if (name == null || name.trim().isEmpty()) {
+            throw new IllegalArgumentException("Name cannot be null or blank");
+        }
+        this.name = name.trim();
     }
 
     public int getAge() {
@@ -25,11 +28,12 @@ abstract class Person {
     }
 
     public void setAge(int age) {
-        if (age < 0) throw new IllegalArgumentException("Age cannot be negative");
+        if (age < 0) {
+            throw new IllegalArgumentException("Age cannot be negative");
+        }
         this.age = age;
     }
 
-    // Abstract method to get details
     public abstract String getDetails();
 
     @Override
